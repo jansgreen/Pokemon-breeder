@@ -1,0 +1,49 @@
+.navbar {
+  min-width: 320px;
+  position: absolute;
+}
+
+.boddy_content{
+  margin-top: 300px;
+  min-height: 630px;
+  min-width: 325px;
+  background-color: #ffffff;
+
+}
+
+.fooder_content{
+    min-height: 120px;
+}
+
+body{
+  min-width: 325px;
+  background-image: url(/assets/img/pokebola2.png), url(/assets/img/pokemonAll.jpg);
+  background-position: right bottom, left top;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  -webkit-transform: translate3d(-0%, 0px, 0px);
+  -moz-transform: translate3d(-0%, 0px, 0px);
+  -ms-transform: translate3d(-0%, 0px, 0px);
+  -o-transform: translate3d(-0%, 0px, 0px);
+}
+
+nav > a {
+  text-transform: capitalize;
+}
+
+li > a {
+  text-transform: capitalize;
+}
+
+.card{
+  margin-top: 4%;
+  width: 18rem;
+}
+
+.card-header, .card-text{
+text-transform: capitalize;
+
+}
+
+
