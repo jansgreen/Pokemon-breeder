@@ -3,21 +3,26 @@
   position: absolute;
 }
 
-.boddy_content{
+.boddy_content {
   margin-top: 300px;
   min-height: 630px;
   min-width: 325px;
   background-color: #ffffff;
-
 }
 
-.fooder_content{
-    min-height: 120px;
+.boddy_content_pokemon{
+  min-height: 730px;
+  background-color: #ffffff;
 }
 
-body{
+.fooder_content {
+  min-height: 120px;
+}
+
+body {
   min-width: 325px;
-  background-image: url(/assets/img/pokebola2.png), url(/assets/img/pokemonAll.jpg);
+  background-image: url(/assets/img/pokebola2.png),
+    url(/assets/img/pokemonAll.jpg);
   background-position: right bottom, left top;
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
@@ -36,16 +41,47 @@ li > a {
   text-transform: capitalize;
 }
 
-
-
-.card{
-  margin-top: 4%;
-  width: 18rem;
+.our {
+  box-sizing: content-box;
 }
 
-.card-header, .card-text{
-text-transform: capitalize;
+.card {
+  display: flexbox;
+  justify-content: space-between;
+  margin-top: 5%;
+}
 
+.card-header,
+.card-text {
+  text-transform: capitalize;
+}
+
+.Copyrigth {
+margin-top: 5%;
+}
+.Copyrigth > h4, h6 {
+  text-transform: capitalize;
+  color: #ffffff;
 }
 
 
+
+.Copyrigth > p {
+  text-transform: capitalize;
+  color: #ffffff;
+  margin-left: 5%;
+}
+
+.Copyrigth > ul > li {
+  text-transform: capitalize;
+  color: #ffffff;
+}
+.fa-facebook{
+size: 9px;
+
+}
+
+.icons{
+  font-size: 2em; 
+  color: #dadada;
+}
