@@ -1,20 +1,45 @@
-var poke_url = "https://pokeapi.co/api/v2/";
-var endpoint = " ";
+class api_url {
+  constructor(allpoke_search) {
+    this.poke_url = "https://pokeapi.co/api/v2/";
+    this.allpoke_magazene = "pokemon?limit=12&offset=";
+    this.allpoke_search = allpoke_search;
+    this.allpoke_list = "pokemon/";
+    this.allpoke_point = `pokemon?limit=8&offset=`;
+  }
 
-/*============================================================================*/
-/*INDEX MAGAZINE*/
-/*============================================================================*/
-$(document).ready(function () {
-  var pages = Math.floor(Math.random() * 964);
-  let endpoint = `pokemon?limit=12&offset=${pages}`;
-  fetch(poke_url + endpoint)
-    .then((response) => response.json())
-    .then(function (allpokemon) {
-      allpokemon.results.forEach(function (pokemon) {
-        magazine_col_I(pokemon);
+  endurl() {
+    fetch(this.poke_url + this.allpoke_magazene + this.allpoke_search)
+      .then((response) => response.json())
+      .then(function (allpokemon) {
+        allpokemon.results.forEach(function (pokemon) {
+          magazine_col_I(pokemon);
+        });
       });
-    });
-});
+  }
+
+  search_url() {
+    fetch(this.poke_url + this.allpoke_point + this.allpoke_search)
+      .then((response) => response.json())
+      .then(function (allpokemon) {
+        allpokemon.results.forEach(function (pokemonList) {
+          Pokemons_List(pokemonList);
+        });
+      });
+  }
+  search_one() {
+    fetch(this.poke_url + this.allpoke_search)
+      .then((response) => response.json())
+      .then(function (search_a_pokemon) {
+        get_a_pokemon(search_a_pokemon);
+      });
+  }
+}
+
+
+
+var pages = Math.floor(Math.random() * 964);
+let data = new api_url(`${pages}`);
+data.endurl();
 
 function magazine_col_I(pokemon) {
   let url = pokemon.url;
@@ -22,6 +47,7 @@ function magazine_col_I(pokemon) {
     .then((response) => response.json())
     .then(function (pokeData) {
       var magazine_col_I = document.getElementById("magazine_col_I");
+
       /*===================================================*/
       let col = document.createElement("div");
       let Pkimg = document.createElement("img");
@@ -50,7 +76,8 @@ function magazine_col_I(pokemon) {
       card.appendChild(cardText_I);
       cardHeader.textContent = pokeData.name;
       if (magazine_col_I) {
-        fetch(pokeData.abilities[0].ability.url)
+        let hability = pokeData.abilities[0].ability;
+        fetch(hability.url)
           .then((response) => response.json())
           .then(function (pokeAbilities) {
             var num = pokeAbilities.effect_entries;
@@ -59,10 +86,13 @@ function magazine_col_I(pokemon) {
               if (element.effect === "undefined" || element.effect === null) {
                 cardText.textContent = "It not have effects";
               } else {
-                cardText.textContent = `Details: ${element.effect}`;
+                cardText.textContent = `hability name: ${hability.name}`;
+                cardText_I.textContent = `${element.effect}`;
               }
             }
           });
+        console.log(pokeData);
+
         Pkimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${pokeData.id}.png`;
         magazine_col_I.appendChild(col);
       }
@@ -73,19 +103,66 @@ function magazine_col_I(pokemon) {
 /*SHOW A LIST OF POKEMONS*/
 /*==========================================================================================*/
 
-
-let page = 200;
-
-
 $(document).ready(function () {
-  let endpoint = `pokemon?limit=8&offset=${page}`;
-  fetch(poke_url + endpoint)
-    .then((response) => response.json())
-    .then(function (allpokemon) {
-      allpokemon.results.forEach(function (pokemonList) {
-        Pokemons_List(pokemonList);
-      });
+  let zero = 0;
+  let one = 1;
+  let page = 0;
+
+  $("#pagess").click(function () {
+    if (zero < 964) {
+      let page = Math.floor((one + zero) * 8);
+      let data = new api_url(`${page}`);
+      console.log(`${page}`);
+      data.search_url();
+      if (data) {
+        const clear = document.getElementById("pokemons");
+        clear.innerHTML = " ";
+      }
+      one++;
+    } else {
+      let page = Math.floor((one + zero) * 8);
+      let data = new api_url(`${page}`);
+      console.log(`${page}`);
+      data.search_url();
+      if (data) {
+        const clear = document.getElementById("pokemons");
+        clear.innerHTML = " ";
+      }
+      one--;
+    }
+
+    $("#page_less").click(function () {
+      const clear = document.getElementById("pokemons");
+      clear.innerHTML = " ";
+      if (zero > 0) {
+        let page = Math.floor((one - zero) * 8);
+        let data = new api_url(`${page}`);
+        console.log(`${page}`);
+        data.search_url();
+        if (data) {
+          const clear = document.getElementById("pokemons");
+          clear.innerHTML = " ";
+        }
+        one--;
+      } else if (zero < 964) {
+        let page = Math.floor((one - zero) * 8);
+        let data = new api_url(`${page}`);
+        console.log(`${page}`);
+        data.search_url();
+        if (data) {
+          const clear = document.getElementById("pokemons");
+          clear.innerHTML = " ";
+        }
+        one--;
+      } else if (zero == 0) {
+        console.log("Carambas");
+      } else if (zero > 0) {
+        console.log("Carambas");
+      }
     });
+  });
+  let data = new api_url(`${page}`);
+  data.search_url();
 });
 
 function Pokemons_List(pokemonList) {
@@ -188,98 +265,88 @@ function Pokemons_List(pokemonList) {
     });
 }
 /*==========================================================================================*/
-/*SEARCH A LIST OF POKEMONS*/
+/*SEARCH A  POKEMON*/
 /*==========================================================================================*/
-
+var inputText = Math.floor(Math.random() * 964);
 function poke_search() {
   const inputext = document.getElementById("search");
   var inputext_value = inputext.value;
   var inputText = inputext_value.toLowerCase();
-
   let endpoint = `pokemon/${inputText}`;
-  fetch(poke_url + endpoint)
-    .then((response) => response.json())
-    .then(function (seached_pokemon) {
-      var pokemon = document.getElementById("searchpokemons");
-      /*===================================================*/
-      let col = document.createElement("div");
-      let Pkimg = document.createElement("img");
-      let card = document.createElement("div");
-      let cardHeader = document.createElement("div");
-      let cardBody = document.createElement("div");
-      let cardText = document.createElement("p");
-      let cardText_I = document.createElement("p");
-      let cardText_II = document.createElement("p");
-      let cardText_III = document.createElement("p");
-      let cardText_IV = document.createElement("p");
-      let cardText_V = document.createElement("p");
-      let cardText_VI = document.createElement("p");
-
-      /*===================================================*/
-      col.setAttribute("class", "col-xl-12");
-      Pkimg.setAttribute("class", "card-img-top");
-      card.setAttribute("class", "card align-items-xl-stretch");
-      cardHeader.setAttribute("class", "card-header");
-      cardBody.setAttribute("class", "card-body");
-      cardText.setAttribute("class", "card-text container");
-      cardText_I.setAttribute("class", "card-text container");
-      cardText_II.setAttribute("class", "card-text container");
-      cardText_III.setAttribute("class", "card-text container");
-      cardText_IV.setAttribute("class", "card-text container");
-      cardText_V.setAttribute("class", "card-text container");
-      cardText_VI.setAttribute("class", "card-text container");
-
-      /*===================================================*/
-
-      col.appendChild(card);
-      card.appendChild(cardHeader);
-      card.appendChild(cardBody);
-      cardBody.appendChild(Pkimg);
-      card.appendChild(cardText);
-      card.appendChild(cardText_I);
-      card.appendChild(cardText_II);
-      card.appendChild(cardText_III);
-      card.appendChild(cardText_IV);
-      card.appendChild(cardText_V);
-      card.appendChild(cardText_VI);
-
-      cardHeader.textContent = seached_pokemon.name;
-      Pkimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${seached_pokemon.id}.png`;
-      pokemon.appendChild(col);
-
-      fetch(seached_pokemon.species.url)
-        .then((response) => response.json())
-        .then(function (poke_species) {
-          fetch(poke_species.evolution_chain.url)
-            .then((response) => response.json())
-            .then(function (poke_evolution) {
-              var count = poke_evolution.chain.evolves_to;
-              for (let subindex = 0; subindex < count.length; subindex++) {
-                const damageRel = count[subindex];
-                var poke_evo_name = damageRel.species.name;
-                let endpoint = `pokemon/${poke_evo_name}`;
-                fetch(poke_url + endpoint)
-                  .then((response) => response.json())
-                  .then(function (poke_evolution_name) {
-                    pokemon.innerHTML = `<div class="card">
-                 <img src="https://pokeres.bastionbot.org/images/pokemon/${seached_pokemon.id}.png" class="card-img-top" alt="...">
-                 <div class="card-body">
-                   <h5 class="card-title card-text">${seached_pokemon.name}</h5>
-                   <p class="card-text">usually ${seached_pokemon.name} you can find it in the area ${poke_species.habitat.name}; the capture difficulty is ${poke_species.capture_rate} %, belongs to the ${poke_species.generation.name}</p>
-                   <h5 class="card-title card-text">evolution to</h5>
-                   <div class="row">
-                   <div class="col-xl-4">
-                   <div class="card align-items-xl-stretch">
-                   <div class="card-header">${damageRel.species.name}</div>
-                   <div class="card-body">
-                   <img src="https://pokeres.bastionbot.org/images/pokemon/${poke_evolution_name.id}.png" class="card-img-top" alt="...">
-                   </div></div>
-               </div>`;
-                  });
-              }
-            });
-        });
-    });
+  let data = new api_url(endpoint);
+  data.search_one();
 }
 
-console.log("hola mundo");
+function get_a_pokemon(search_a_pokemon) {
+  const push_data = document.getElementById("searchpokemons");
+  const poke_habls = search_a_pokemon.abilities;
+  const evo_pro = search_a_pokemon.id + 1;
+  const poke_evo_cols = document.getElementById("poke_evo_cols")
+  poke_evo_cols.innerHTML=` `;
+  for (let index = 0; index < poke_habls.length; index++) {
+    const element = poke_habls[index];
+    const { name, url } = element.ability;
+    const poke_array = url;
+
+    fetch(poke_array)
+      .then((response) => response.json())
+      .then(function (name_ability) {
+        const evol = search_a_pokemon.species.url;
+
+        fetch(evol)
+          .then((response) => response.json())
+          .then(function (evolution) {
+            if (evolution.evolves_from_species) {
+              const { name } = evolution.evolves_from_species;
+              const poke_evolution_from = name;
+
+              fetch(`https://pokeapi.co/api/v2/pokemon/${poke_evolution_from}`)
+                .then((response) => response.json())
+                .then(function (evo_from_id) {
+                  const from_poke = evo_from_id.id;
+
+                  fetch(`https://pokeapi.co/api/v2/pokemon/${evo_pro}`)
+                    .then((response) => response.json())
+                    .then(function (evo_to) {
+
+                      poke_evo_cols.innerHTML = `
+            <div class="row">
+            <div class="col-xl-4" >
+            <h5 class="card-header">${poke_evolution_from}</h5>
+            <img src="https://pokeres.bastionbot.org/images/pokemon/${from_poke}.png" class="card-img-top" alt="...">
+            </div>
+            <div class="col-xl-4" >
+            <h5 class="card-header">${evo_to.name}</h5>
+            <img src="https://pokeres.bastionbot.org/images/pokemon/${evo_to.id}.png" class="card-img-top" alt="...">
+            </div>
+            </div>
+           `;
+                    });
+                });
+            }
+
+            const parraphas = document.getElementById("parraphas");
+            let h5 = document.createElement("h5");
+
+            h5.setAttribute("class", "card-text ");
+
+            h5.textContent =
+              `${name}` + `${name_ability.effect_entries[1].effect}`;
+
+            let div = document.createElement("div");
+            div.setAttribute("class", "card-body");
+            div.appendChild(h5);
+            parraphas.appendChild(div);
+
+            push_data.innerHTML = `
+    <div class="card">
+  <img src="https://pokeres.bastionbot.org/images/pokemon/${search_a_pokemon.id}.png" class="card-img-top" alt="...">
+  </div>
+  <div class= "card-name-Text"> <h2 class="card-title">${search_a_pokemon.name}</h2>
+  </div>
+  <h4 class="h_details">ability</h4>
+  `;
+          });
+      });
+  }
+}

@@ -85,3 +85,18 @@ size: 9px;
   font-size: 2em; 
   color: #dadada;
 }
+.page-item{
+  margin-left: 20%;
+}
+
+.card-name-Text{
+  background-color: #000000;
+}
+.card-name-Text > h2{
+text-transform: capitalize;
+color: #ffffff;
+margin-left: 4%;
+}
+.h_details{
+  text-transform: capitalize;
+}
