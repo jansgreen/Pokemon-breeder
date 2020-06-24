@@ -6,7 +6,7 @@ pokemon breeder is an app geared towards raising pokemon, where breeders can sea
 
 About Pokemon Breeders
 This Website Is Oriented To The Life, Growth And Upbringing Of Pokemons, The Trainer Or Breeder Sees The Pokemon World From The Perspective Of Upbringing, Where He Maintains The Care Of His Own Pokemon Or Those Of Others.
-.
+
 
 ### Magazine, in this area of ​​the web you will be able to appreciate the few stars of the moment, where we display them with great pride.
 
