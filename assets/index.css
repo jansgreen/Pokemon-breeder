@@ -100,3 +100,38 @@ margin-left: 4%;
 .h_details{
   text-transform: capitalize;
 }
+
+.card_breeders{
+  width: 4rem;
+}
+
+.farm_title{
+  background-color: black;
+  color: #ffffff;
+  
+}
+
+.pkimg{
+  width: 8rem;
+}
+
+.PKrow{
+min-width: 40%;
+max-height: 370px;
+
+
+}
+
+.mx-auto{
+margin-top: 2%;
+margin-bottom: 1%;
+
+}
+
+h1{
+  text-transform: capitalize;
+}
+
+.container-xl{
+  width: 100%;
+}
