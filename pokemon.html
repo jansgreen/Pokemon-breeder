@@ -31,6 +31,7 @@
                     <a class="top_menu nav-link" href="./breeders.html"><h4>breeders</h4></a>
                 </li>
             </ul>
+
         </div>
     </nav>
     <section> 
@@ -38,6 +39,13 @@
         <div class="row">
             <div class="col-xl-4">
                 <div class="container">
+                    <div class="poke_nav navbar-light bg-light">
+                        <div class="form-inline">
+                            <input id="search" type="search" placeholder="Search"
+                                aria-label="Search">
+                            <button onclick="poke_search()" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                        </div>
+                    </div>
                     <div id="searchpokemons"></div>
                     <div id="parraphas"></div>
                     <div id="poke_evo_cols"></div>
@@ -46,13 +54,7 @@
             </div>
             <div class="col-xl-8">
                 <!--BOOTSTRAP SEARCH HTML-->
-                <nav class="poke_nav navbar-light bg-light">
-                    <div class="form-inline">
-                        <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <button onclick="poke_search()" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-                    </div>
-                </nav>
+
                 <div id="pokemons" class="row poke_list"></div>
                 <nav aria-label="...">
                     <ul class="pagination">
