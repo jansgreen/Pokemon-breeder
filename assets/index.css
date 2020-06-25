@@ -1,6 +1,8 @@
 .navbar {
   min-width: 320px;
-  position: absolute;
+}
+body {
+  position: relative;
 }
 
 .boddy_content {
@@ -10,17 +12,14 @@
   background-color: #ffffff;
 }
 
-.boddy_content_pokemon{
-  min-height: 730px;
-  background-color: #ffffff;
-}
-
 .fooder_content {
   min-height: 120px;
 }
 
-body {
+.img_header {
+  z-index: 2;
   min-width: 325px;
+  height: 400px;
   background-image: url(/assets/img/pokebola2.png),
     url(/assets/img/pokemonAll.jpg);
   background-position: right bottom, left top;
@@ -33,6 +32,7 @@ body {
   -o-transform: translate3d(-0%, 0px, 0px);
 }
 
+
 nav > a {
   text-transform: capitalize;
 }
@@ -42,7 +42,13 @@ li > a {
 }
 
 .our {
-  box-sizing: content-box;
+  background-color: #acacac;
+  height: 60px;
+}
+
+.our > h3 {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card {
@@ -57,14 +63,13 @@ li > a {
 }
 
 .Copyrigth {
-margin-top: 5%;
+  margin-top: 5%;
 }
-.Copyrigth > h4, h6 {
+.Copyrigth > h4,
+h6 {
   text-transform: capitalize;
   color: #ffffff;
 }
-
-
 
 .Copyrigth > p {
   text-transform: capitalize;
@@ -76,62 +81,70 @@ margin-top: 5%;
   text-transform: capitalize;
   color: #ffffff;
 }
-.fa-facebook{
-size: 9px;
-
+.fa-facebook {
+  size: 9px;
 }
 
-.icons{
-  font-size: 2em; 
+.icons {
+  font-size: 2em;
   color: #dadada;
 }
-.page-item{
+.page-item {
   margin-left: 20%;
 }
 
-.card-name-Text{
+.card-name-Text {
   background-color: #000000;
 }
-.card-name-Text > h2{
-text-transform: capitalize;
-color: #ffffff;
-margin-left: 4%;
+.card-name-Text > h2 {
+  text-transform: capitalize;
+  color: #ffffff;
+  margin-left: 4%;
 }
-.h_details{
+.h_details {
   text-transform: capitalize;
 }
 
-.card_breeders{
+.card_breeders {
   width: 4rem;
 }
 
-.farm_title{
+.farm_title {
   background-color: black;
   color: #ffffff;
-  
 }
 
-.pkimg{
+.pkimg {
   width: 8rem;
 }
 
-.PKrow{
-min-width: 40%;
-max-height: 370px;
-
-
+.PKrow {
+  min-width: 40%;
+  max-height: 370px;
 }
 
-.mx-auto{
-margin-top: 2%;
-margin-bottom: 1%;
-
+.mx-auto {
+  margin-top: 2%;
+  margin-bottom: 1%;
 }
 
-h1{
+h1 {
   text-transform: capitalize;
 }
 
-.container-xl{
+.container-xl {
   width: 100%;
 }
+
+.navbar {
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+}
+.poke_nav {
+  margin-top: 3%;
+}
+.poke_list {
+  margin-top: 7%;
+}
+
