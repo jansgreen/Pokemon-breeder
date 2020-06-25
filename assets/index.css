@@ -1,18 +1,10 @@
 h1, h2, h3, h4, h5, h6{
   text-transform: capitalize;
 }
+
+
 .navbar {
   min-width: 320px;
-}
-body {
-  position: relative;
-}
-
-.boddy_content {
-  margin-top: 300px;
-  min-height: 630px;
-  min-width: 325px;
-  background-color: #ffffff;
 }
 
 .fooder_content {
@@ -28,17 +20,12 @@ body {
   background-position: right bottom, left top;
   background-repeat: no-repeat, no-repeat;
   background-size: cover;
-  background-attachment: fixed;
   -webkit-transform: translate3d(-0%, 0px, 0px);
   -moz-transform: translate3d(-0%, 0px, 0px);
   -ms-transform: translate3d(-0%, 0px, 0px);
   -o-transform: translate3d(-0%, 0px, 0px);
 }
 
-
-nav > a {
-  text-transform: capitalize;
-}
 
 li > a {
   text-transform: capitalize;
@@ -138,14 +125,15 @@ h1 {
 }
 
 .navbar {
-  z-index: 1;
+  z-index: 2;
   position: fixed;
   width: 100%;
 }
-.poke_nav {
-  margin-top: 4%;
-}
+
 .poke_list {
   margin-top: 8%;
 }
+
+
+
 
