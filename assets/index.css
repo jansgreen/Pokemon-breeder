@@ -134,6 +134,7 @@ h1 {
 
 .container-xl {
   width: 100%;
+  padding-top: 5%;
 }
 
 .navbar {
@@ -142,9 +143,9 @@ h1 {
   width: 100%;
 }
 .poke_nav {
-  margin-top: 3%;
+  margin-top: 4%;
 }
 .poke_list {
-  margin-top: 7%;
+  margin-top: 8%;
 }
 
