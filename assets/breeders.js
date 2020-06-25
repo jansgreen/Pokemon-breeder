@@ -30,7 +30,6 @@ $(document).ready(function () {
   
           row.setAttribute("class", "table");
           card.setAttribute("class", "card");
-          
           img.setAttribute("class", "card_breeders");
           PKimg.setAttribute("class", "card_breeders pkimg");
           PKimg.setAttribute("style", "width: 8rem;");

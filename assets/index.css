@@ -12,14 +12,14 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .img_header {
-  z-index: 2;
   min-width: 325px;
   height: 400px;
   background-image: url(./img/pokebola2.png),
     url(./img/pokemonAll.jpg);
-  background-position: right bottom, left top;
+    
+  background-position: center, left top;
   background-repeat: no-repeat, no-repeat;
-  background-size: cover;
+  background-size: 70rem, cover;
   -webkit-transform: translate3d(-0%, 0px, 0px);
   -moz-transform: translate3d(-0%, 0px, 0px);
   -ms-transform: translate3d(-0%, 0px, 0px);
