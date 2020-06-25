@@ -1,5 +1,5 @@
 /*==========================================================================================*/
-/*SHOW A LIST OF POKEMONS*/
+/*SHOW A LIST OF POKEMONS ==> in pokemon.js you can find a spesific pokemond and it show all pokemon we have in de pokeapi*/ 
 /*==========================================================================================*/
 class api_url {
     constructor(allpoke_search) {
