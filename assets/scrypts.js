@@ -1,3 +1,6 @@
+/*==========================================================================================*/
+/*SHOW A LIST OF ALL OUR POKEMONS STAR==> this area is a magazine pokemon 
+/*==========================================================================================*/
 class api_url {
   constructor(allpoke_search) {
     this.poke_url = "https://pokeapi.co/api/v2/";

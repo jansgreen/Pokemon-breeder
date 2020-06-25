@@ -33,7 +33,7 @@ $(document).ready(function () {
           
           img.setAttribute("class", "card_breeders");
           PKimg.setAttribute("class", "card_breeders pkimg");
-          PKimg.setAttribute("style", "width: 4rem;");
+          PKimg.setAttribute("style", "width: 8rem;");
 
   
           const farm_pkname = email.slice("", -11);

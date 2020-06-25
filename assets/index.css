@@ -1,3 +1,6 @@
+h1, h2, h3, h4, h5, h6{
+  text-transform: capitalize;
+}
 .navbar {
   min-width: 320px;
 }
@@ -113,10 +116,7 @@ h6 {
   background-color: black;
   color: #ffffff;
 }
-/*
-.pkimg {
-  width: 2rem;
-}*/
+
 
 .PKrow {
   min-width: 40%;
