@@ -14,9 +14,10 @@ $(document).ready(function () {
           const { cell, email, name, location, picture } = element_breeders;
   
           var breedersHTML = document.getElementById("breedersHTML");
-          let row = document.createElement("tr");
-          let col = document.createElement("td");
-          let col_I = document.createElement("td");
+          let mb = document.createElement("div")
+          let row = document.createElement("div");
+          let col = document.createElement("div");
+          let col_I = document.createElement("div");
           let card = document.createElement("div");
           let img = document.createElement("img");
           let PKimg = document.createElement("img");
@@ -27,8 +28,12 @@ $(document).ready(function () {
           let card_text_I = document.createElement("p");
           let card_text_II = document.createElement("p");
           let card_text_III = document.createElement("p");
-  
-          row.setAttribute("class", "table");
+
+          mb.setAttribute("class", "card mb-3");
+          row.setAttribute("class", "row no-gutters");
+          col.setAttribute("class", "col-md-4");
+          col_I.setAttribute("class", "col-md-8");
+
           card.setAttribute("class", "card");
           img.setAttribute("class", "card_breeders");
           PKimg.setAttribute("class", "card_breeders pkimg");
@@ -48,6 +53,7 @@ $(document).ready(function () {
           card_text.setAttribute("class", "card-text");
           card_text_II.setAttribute("class", "card-text");
           card_text_III.setAttribute("class", "card-text");
+          mb.appendChild(row);
           row.appendChild(col);
           row.appendChild(col_I);
   
@@ -83,7 +89,7 @@ $(document).ready(function () {
   
                           PKimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${poke_picture.id}.png`;
                           col_I.appendChild(PKimg);
-                          breedersHTML.appendChild(row);
+                          breedersHTML.appendChild(mb);
                         });
                     }
                   });
