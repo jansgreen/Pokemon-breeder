@@ -30,67 +30,35 @@ class api_url {
    
   }
 
+  let page = 0;
 
 $(document).ready(function () {
-    let zero = 0;
-    let one = 1;
-    let page = 0;
-  
-    $("#pagess").click(function () {
-      if (zero < 964) {
-        let page = Math.floor((one + zero) * 8);
-        let data = new api_url(`${page}`);
-        console.log(`${page}`);
-        data.search_url();
-        if (data) {
-          const clear = document.getElementById("pokemons");
-          clear.innerHTML = " ";
-        }
-        one++;
-      } else {
-        let page = Math.floor((one + zero) * 8);
-        let data = new api_url(`${page}`);
-        console.log(`${page}`);
-        data.search_url();
-        if (data) {
-          const clear = document.getElementById("pokemons");
-          clear.innerHTML = " ";
-        }
-        one--;
-      }
-  
-      $("#page_less").click(function () {
-        const clear = document.getElementById("pokemons");
-        clear.innerHTML = " ";
-        if (zero > 0) {
-          let page = Math.floor((one - zero) * 8);
-          let data = new api_url(`${page}`);
-          console.log(`${page}`);
-          data.search_url();
-          if (data) {
-            const clear = document.getElementById("pokemons");
-            clear.innerHTML = " ";
-          }
-          one--;
-        } else if (zero < 964) {
-          let page = Math.floor((one - zero) * 8);
-          let data = new api_url(`${page}`);
-          console.log(`${page}`);
-          data.search_url();
-          if (data) {
-            const clear = document.getElementById("pokemons");
-            clear.innerHTML = " ";
-          }
-          one--;
-        } else if (zero == 0) {
-          console.log("Carambas");
-        } else if (zero > 0) {
-          console.log("Carambas");
-        }
-      });
-    });
     let data = new api_url(`${page}`);
     data.search_url();
+    $('#count').text("Page: "+page)
+
+    const clear = document.getElementById("pokemons");
+    $('#pagess').on('click', function() {page++;
+        clear.innerHTML = " ";
+        let data = new api_url(`${page*8}`);
+        console.log(page*8);
+        data.search_url();
+        $('#count').text("Page: "+page)
+
+            
+    });
+    
+    $('#page_less').on('click', function() {
+      $('.add-remove').slick(page - 1);
+      if (page !== 0){page--;
+        clear.innerHTML = " ";
+        let data = new api_url(`${page*8}`);
+        console.log(page*8);
+        data.search_url();
+        $('#count').text("Page: "+page)
+    }
+    });
+
   });
   
   function Pokemons_List(pokemonList) {
@@ -195,7 +163,15 @@ $(document).ready(function () {
   /*==========================================================================================*/
   /*SEARCH A  POKEMON*/
   /*==========================================================================================*/
-  var inputText = Math.floor(Math.random() * 964);
+  $(document).ready(function() {
+    const clear = document.getElementById("searchpokemons");
+    clear.innerHTML=` `;
+    let index = Math.floor(Math.random() * 964);
+    var endpoint = `pokemon/${index}`;
+    let data = new api_url(endpoint);
+    data.search_one();
+      
+  });
   function poke_search() {
     const inputext = document.getElementById("search");
     var inputext_value = inputext.value;
