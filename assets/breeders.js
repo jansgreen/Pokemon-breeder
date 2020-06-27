@@ -34,7 +34,6 @@ $(document).ready(function () {
           col.setAttribute("class", "col-md-4");
           col_I.setAttribute("class", "col-md-8");
 
-          card.setAttribute("class", "card");
           img.setAttribute("class", "card_breeders");
           PKimg.setAttribute("class", "card_breeders pkimg");
           PKimg.setAttribute("style", "width: 8rem;");
