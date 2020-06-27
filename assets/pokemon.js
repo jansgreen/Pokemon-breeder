@@ -41,19 +41,16 @@ $(document).ready(function () {
     $('#pagess').on('click', function() {page++;
         clear.innerHTML = " ";
         let data = new api_url(`${page*8}`);
-        console.log(page*8);
         data.search_url();
         $('#count').text("Page: "+page)
 
             
     });
     
-    $('#page_less').on('click', function() {
-      $('.add-remove').slick(page - 1);
+    $('#page_less').on('click', function() {page - 1
       if (page !== 0){page--;
         clear.innerHTML = " ";
         let data = new api_url(`${page*8}`);
-        console.log(page*8);
         data.search_url();
         $('#count').text("Page: "+page)
     }
