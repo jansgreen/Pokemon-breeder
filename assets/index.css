@@ -20,10 +20,7 @@ h1, h2, h3, h4, h5, h6{
   background-position: center, left top;
   background-repeat: no-repeat, no-repeat;
   background-size: 70rem, cover;
-  -webkit-transform: translate3d(-0%, 0px, 0px);
-  -moz-transform: translate3d(-0%, 0px, 0px);
-  -ms-transform: translate3d(-0%, 0px, 0px);
-  -o-transform: translate3d(-0%, 0px, 0px);
+
 }
 
 
@@ -42,7 +39,6 @@ li > a {
 }
 
 .card {
-  display: flexbox;
   justify-content: space-between;
   margin-top: 5%;
 }
@@ -71,9 +67,7 @@ h6 {
   text-transform: capitalize;
   color: #ffffff;
 }
-.fa-facebook {
-  size: 9px;
-}
+
 
 .icons {
   font-size: 2em;

@@ -26,6 +26,14 @@ This Website Is Oriented To The Life, Growth And Upbringing Of Pokemons, The Tra
  * Kit.fontawesome.com: This is a library of icon tools, based on css, which we are using for the social media icons.
  * Jquery/3.5.1/jquery.min.js: we simplify the task of programming in JavaScript and allow us to add interactivity to pokemon beeders, saving us a few lines of code in javascripts.
 
+## Test:
+ * Markup Validation, I did test to all HTML file
+ * jigsaw.w3.org, I used the website for test my css file
+ <a href="http://jigsaw.w3.org/css-validator/check/referer">
+    <img style="border:0;width:88px;height:31px"
+        src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+        alt="¡CSS Válido!" />
+  </a>
 ## API:
   All the data about the pokemons comes from [pokeApi.co](https://pokeapi.co), this is possible thanks to the recovery of jquery, but all the images of the pokemons come from [pokeres.bastionbot.org](https://pokeres.bastionbot.org/), we join these two fantastic Pokemon APIs to give you the best information and visualization experience.
   There is another API that we use to disguise the pokemon breeders, since we do not have a user registry, add the third API [randomuser.me](https://randomuser.me)

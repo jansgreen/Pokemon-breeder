@@ -14,7 +14,7 @@ $(document).ready(function () {
           const { cell, email, name, location, picture } = element_breeders;
   
           var breedersHTML = document.getElementById("breedersHTML");
-          let mb = document.createElement("div")
+          let mb = document.createElement("div");
           let row = document.createElement("div");
           let col = document.createElement("div");
           let col_I = document.createElement("div");
