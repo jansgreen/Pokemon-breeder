@@ -54,11 +54,11 @@ We have a navbae with nexts options:
 
  **index.html**
 
- ![ScreenShot](readmeImag/html2.png)
+ ![ScreenShot](readmeImag/html2.PNG)
 
   **pokemon.html**
 
- ![ScreenShot](readmeImag/html3.png)
+ ![ScreenShot](readmeImag/html3.PNG)
 
  * For validate CSS files I was at jigsaw.w3.org. In the option validate_by_upload I loaded all CSS files and click checked.
  <a href="http://jigsaw.w3.org/css-validator/check/referer">
