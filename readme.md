@@ -49,12 +49,15 @@ We have a navbae with nexts options:
  * For validated the HTML files, I was at https://validator.w3.org/Markup in the option validate_by_upload I loaded all HTML files and click checked.
  
  **Breeders.html**
- ![ScreenShot](readmeImag/html1.png)
+
+ ![ScreenShot](readmeImag/html1.PNG)
 
  **index.html**
+
  ![ScreenShot](readmeImag/html2.png)
 
   **pokemon.html**
+
  ![ScreenShot](readmeImag/html3.png)
 
  * For validate CSS files I was at jigsaw.w3.org. In the option validate_by_upload I loaded all CSS files and click checked.
