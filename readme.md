@@ -2,7 +2,8 @@
 
 pokemon breeder is an app geared towards raising pokemon, where breeders can search for and breed a pokemon. we use the pokeapi API https://pokeapi.co/
 
-## visit https://jansgreen.github.io/Pokemon-breeder/
+## visit website
+[Pokemon Breeder](https://jansgreen.github.io/Pokemon-breeder/)
 
 About Pokemon Breeders
 This Website Is Oriented To The Life, Growth And Upbringing Of Pokemons, The Trainer Or Breeder Sees The Pokemon World From The Perspective Of Upbringing, Where He Maintains The Care Of His Own Pokemon Or Those Of Others.
@@ -25,6 +26,9 @@ We have a navbae with nexts options:
   * I created a github repository in [github](https://github.com/)
   * I get a name "Pokemon-breeder"
   * I keep public repository
+  
+  ## github pages
+  * I clicked in settings options, in the options Github pages I selecte branch master and save; this is the link for github pages https://jansgreen.github.io/Pokemon-breeder/ 
 
   ## Git
 
@@ -42,8 +46,18 @@ We have a navbae with nexts options:
  * Jquery/3.5.1/jquery.min.js: we simplify the task of programming in JavaScript and allow us to add interactivity to pokemon beeders, saving us a few lines of code in javascripts.
 
 ## Test:
- * Markup Validation, I did test to all HTML file
- * jigsaw.w3.org, I used the website for test my css file
+ * For validated the HTML files, I was at https://validator.w3.org/Markup in the option validate_by_upload I loaded all HTML files and click checked.
+ 
+ **Breeders.html**
+ ![ScreenShot](readmeimag/html1.png)
+
+ **index.html**
+ ![ScreenShot](readmeimag/html2.png)
+
+  **pokemon.html**
+ ![ScreenShot](readmeimag/html3.png)
+
+ * For validate CSS files I was at jigsaw.w3.org. In the option validate_by_upload I loaded all CSS files and click checked.
  <a href="http://jigsaw.w3.org/css-validator/check/referer">
     <img style="border:0;width:88px;height:31px"
         src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
