@@ -1,6 +1,21 @@
 /*==========================================================================================*/
 /*SHOW A LIST OF POKEMONS ==> in pokemon.js you can find a spesific pokemond and it show all pokemon we have in de pokeapi*/ 
 /*==========================================================================================*/
+
+fetch('https://cors-anywhere.herokuapp.com/https://pokeapi.co/api/v2/pokemon/?limit=0')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(allPokemon => {
+    console.log(allPokemon);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
 class api_url {
     constructor(allpoke_search) {
       this.poke_url = "https://pokeapi.co/api/v2/";
@@ -8,6 +23,7 @@ class api_url {
       this.allpoke_search = allpoke_search;
       this.allpoke_list = "pokemon/";
       this.allpoke_point = `pokemon?limit=8&offset=`;
+      this.url_img_pokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'
     }
   
   
@@ -25,6 +41,15 @@ class api_url {
         .then((response) => response.json())
         .then(function (search_a_pokemon) {
           get_a_pokemon(search_a_pokemon);
+        });
+    }
+
+    Image_Poke() {
+      fetch(this.url_img_pokemon + this.allpoke_search)
+        .then((response) => response.json())
+        .then(function (search_a_pokemon) {
+          get_a_pokemon(search_a_pokemon);
+          console.log(url_img_pokemon);
         });
     }
    
@@ -151,8 +176,8 @@ $(document).ready(function () {
                 }
               });
           }
-  
-          Pkimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${pokeData.id}.png`;
+          console.log(pokeData);
+          Pkimg.srcset = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeData.id}.png`;
           pokemons.appendChild(col);
         }
       });
@@ -213,11 +238,11 @@ $(document).ready(function () {
               <div class="row">
               <div class="col-xl-4" >
               <h5 class="card-header">${poke_evolution_from}</h5>
-              <img src="https://pokeres.bastionbot.org/images/pokemon/${from_poke}.png" class="card-img-top" alt="...">
+              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${from_poke}.png" class="card-img-top" alt="...">
               </div>
               <div class="col-xl-4" >
               <h5 class="card-header">${evo_to.name}</h5>
-              <img src="https://pokeres.bastionbot.org/images/pokemon/${evo_to.id}.png" class="card-img-top" alt="...">
+              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evo_to.id}.png" class="card-img-top" alt="...">
               </div>
               </div>
              `;
@@ -240,7 +265,7 @@ $(document).ready(function () {
   
               push_data.innerHTML = `
       <div class="card">
-    <img src="https://pokeres.bastionbot.org/images/pokemon/${search_a_pokemon.id}.png" class="card-img-top" alt="...">
+    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${search_a_pokemon.id}.png" class="card-img-top" alt="...">
     </div>
     <div class= "card-name-Text"> <h2 class="card-title">${search_a_pokemon.name}</h2>
     </div>

@@ -1,108 +1,103 @@
-/*==========================================================================================*/
-/*SHOW A LIST OF ALL OUR POKEMONS STAR==> this area is a magazine pokemon 
-/*==========================================================================================*/
-class api_url {
-  constructor(allpoke_search) {
-    this.poke_url = "https://pokeapi.co/api/v2/";
-    this.allpoke_magazene = "pokemon?limit=12&offset=";
-    this.allpoke_search = allpoke_search;
-    this.allpoke_list = "pokemon/";
-    this.allpoke_point = `pokemon?limit=8&offset=`;
+class apiClass {
+  constructor(datas, data) {
+    this.cors = "https://cors-anywhere.herokuapp.com/";
+    this.url_base = "https://pokeapi.co/api/v2/";
+    this.endpoin_pokemon = 'pokemon/';
+    this.poke_name = `${datas}`;
+    this.poke_image = `https://img.pokemondb.net/artwork/large/${datas}.jpg`;
+    this.endpoint_url = `${datas}`;
+    this.PokeTotal = "?limit=0";
+    this.data = data;
   }
 
-
-  endurl() {
-    fetch(this.poke_url + this.allpoke_magazene + this.allpoke_search)
-      .then((response) => response.json())
-      .then(function (allpokemon) {
-        allpokemon.results.forEach(function (pokemon) {
-          magazine_col_I(pokemon);
-        });
-      });
+  async Pokemon_limit() {
+    const response = await fetch(this.cors + this.url_base + this.endpoin_pokemon + this.PokeTotal + this.data);
+    const totalpoke = await response.json();
+    return totalpoke;
   }
 
-  search_url() {
-    fetch(this.poke_url + this.allpoke_point + this.allpoke_search)
-      .then((response) => response.json())
-      .then(function (allpokemon) {
-        allpokemon.results.forEach(function (pokemonList) {
-          Pokemons_List(pokemonList);
-        });
-      });
-  }
-  search_one() {
-    fetch(this.poke_url + this.allpoke_search)
-      .then((response) => response.json())
-      .then(function (search_a_pokemon) {
-        get_a_pokemon(search_a_pokemon);
-      });
-  }
- 
-}
-
-
-
-var pages = Math.floor(Math.random() * 964);
-let data = new api_url(`${pages}`);
-data.endurl();
-
-function magazine_col_I(pokemon) {
-  let url = pokemon.url;
-  fetch(url)
-    .then((response) => response.json())
-    .then(function (pokeData) {
-      var magazine_col_I = document.getElementById("magazine_col_I");
-
-      /*===================================================*/
-      let col = document.createElement("div");
-      let Pkimg = document.createElement("img");
-      let card = document.createElement("div");
-      let cardHeader = document.createElement("div");
-      let cardBody = document.createElement("div");
-      let cardText = document.createElement("p");
-      let cardText_I = document.createElement("p");
-
-      /*===================================================*/
-      col.setAttribute("class", "col-xl-2");
-      Pkimg.setAttribute("class", "card-img-top");
-      card.setAttribute("class", "card ");
-      cardHeader.setAttribute("class", "card-header");
-      cardBody.setAttribute("class", "card-body");
-      cardText.setAttribute("class", "card-text container");
-      cardText_I.setAttribute("class", "card-text container");
-
-      /*===================================================*/
-
-      col.appendChild(card);
-      card.appendChild(cardHeader);
-      card.appendChild(cardBody);
-      cardBody.appendChild(Pkimg);
-      card.appendChild(cardText);
-      card.appendChild(cardText_I);
-      cardHeader.textContent = pokeData.name;
-      if (magazine_col_I) {
-        let hability = pokeData.abilities[0].ability;
-        fetch(hability.url)
-          .then((response) => response.json())
-          .then(function (pokeAbilities) {
-            var num = pokeAbilities.effect_entries;
-            for (let index = 0; index < num.length; index++) {
-              const element = num[index];
-              if (element.effect === "undefined" || element.effect === null) {
-                cardText.textContent = "It not have effects";
-              } else {
-                cardText.textContent = `hability name: ${hability.name}`;
-                cardText_I.textContent = `${element.effect}`;
-              }
-            }
-          });
-
-        Pkimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${pokeData.id}.png`;
-        magazine_col_I.appendChild(col);
+  async Pokemon_ability() {
+    const response = await fetch(this.url_base + 'ability/' + this.poke_name);
+    const poke_ability_data = await response.json();
+    const effect_entries = poke_ability_data.effect_entries;
+    let effect = '';
+    for (let i = 0; i < effect_entries.length; i++) {
+      if (effect_entries[i].language.name === 'en') {
+        effect = effect_entries[i].effect;
+        break;
       }
-    });
+    }
+    return effect;
+  }
+  
+
+  async Pokemon_img() {
+    const img =  this.poke_image;
+    return img;
+  }
+
+  async fetchData(url) {
+    const response = await fetch(this.cors + url);
+    const data = await response.json();
+    return data;
+  }
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+  const api = new apiClass();
+  const datas = await api.Pokemon_limit();
+  const imgCard = document.getElementById('img_card');
+  let count = 0; // Agrega una variable para llevar la cuenta de las tarjetas
 
+  for (let index = 0; index < datas.results.length; index++) {
+    const element = datas.results[index];
+    const img = new apiClass(element.name, "");
+    const poke_datas_img = await img.Pokemon_img();
 
+    // Crea una nueva tarjeta de Pokémon y agrega sus elementos
+    var col = document.createElement("div");
+    col.classList.add("col");
+
+    var card = document.createElement("div");
+    card.classList.add("card");
+    card.style.width = "300px"; // Agrega esta línea para establecer el ancho
+    col.appendChild(card)
+
+    var imgEl = document.createElement("img");
+    imgEl.src = poke_datas_img;
+    imgEl.classList.add("card-img-top", "img-fluid");
+    imgEl.style.maxWidth = "100%";
+    imgEl.alt = element.name;
+    card.appendChild(imgEl);
+
+    var cardBody = document.createElement("div");
+    cardBody.classList.add("card-body");
+    var title = document.createElement("h5");
+    title.classList.add("card-title");
+    title.textContent = element.name;
+    var text = document.createElement("p");
+    text.classList.add("card-text");
+    const statsUrl = datas.results[index].url;
+    const stats =  await api.fetchData(statsUrl);
+    const abilitiesUrl = stats.abilities[0].ability.url;
+    const abilities = await api.fetchData(abilitiesUrl);
+    const effect = await new apiClass(abilities.name).Pokemon_ability();
+    text.textContent = "Base experience: " + stats.base_experience + ". Hability " +  effect;
+    cardBody.appendChild(title);
+    cardBody.appendChild(text);
+    card.appendChild(cardBody);
+
+    // Agrega la tarjeta a la fila actual o crea una nueva fila si ya hay 4 tarjetas en la actual
+    if (count % 4 == 0) {
+      var row = document.createElement("article");
+      row.classList.add("row", "row-cols-1", "row-cols-md-4", "g-5");
+      row.style.width="100%";
+      imgCard.appendChild(row);
+    }
+    var currentRow = imgCard.lastChild;
+    currentRow.appendChild(col);
+    count++;
+
+  }
+});
 
