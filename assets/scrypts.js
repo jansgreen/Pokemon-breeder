@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     var cardBody = document.createElement("div");
     var header = document.createElement("div");
     header.classList.add("card-header")
-    var foother = document.createElement("div");
-    foother.classList.add("card-footer", "text-muted")
+    var footer = document.createElement("div");
+    footer.classList.add("card-footer", "text-muted")
 
     cardBody.classList.add("card-body");
     var title = document.createElement("h5");
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const effect = await new apiClass(abilities.name).Pokemon_ability();
     text.textContent =  "Hability " +  effect;
     FooterText.textContent = "Base experience: " + stats.base_experience;
-    foother.appendChild(FooterText)
+    footer.appendChild(FooterText)
     cardBody.appendChild(title);
     cardBody.appendChild(text);
     
