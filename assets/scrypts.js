@@ -71,21 +71,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.appendChild(imgEl);
 
     var cardBody = document.createElement("div");
+    var header = document.createElement("div");
+    header.classList.add("card-header")
+    var foother = document.createElement("div");
+    foother.classList.add("card-footer", "text-muted")
+
     cardBody.classList.add("card-body");
     var title = document.createElement("h5");
     title.classList.add("card-title");
     title.textContent = element.name;
+    header.textContent = element.name;
     var text = document.createElement("p");
+    var FooterText = document.createElement("p");
+
     text.classList.add("card-text");
     const statsUrl = datas.results[index].url;
     const stats =  await api.fetchData(statsUrl);
     const abilitiesUrl = stats.abilities[0].ability.url;
     const abilities = await api.fetchData(abilitiesUrl);
     const effect = await new apiClass(abilities.name).Pokemon_ability();
-    text.textContent = "Base experience: " + stats.base_experience + ". Hability " +  effect;
+    text.textContent =  "Hability " +  effect;
+    FooterText.textContent = "Base experience: " + stats.base_experience;
+    foother.appendChild(FooterText)
     cardBody.appendChild(title);
     cardBody.appendChild(text);
+    
+    card.appendChild(header);
     card.appendChild(cardBody);
+    card.appendChild(footer);
 
     // Agrega la tarjeta a la fila actual o crea una nueva fila si ya hay 4 tarjetas en la actual
     if (count % 4 == 0) {
