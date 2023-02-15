@@ -177,7 +177,7 @@ $(document).ready(function () {
               });
           }
           console.log(pokeData);
-          Pkimg.srcset = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokeData.id}.png`;
+          Pkimg.srcset = `https://img.pokemondb.net/artwork/large/${pokeData.name}.jpg`;
           pokemons.appendChild(col);
         }
       });

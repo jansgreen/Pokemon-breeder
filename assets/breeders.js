@@ -79,6 +79,7 @@ $(document).ready(function () {
                     var pokerand = Math.floor(Math.random() * 10);
                     const poke_type_name =
                       poke_habits.pokemon_species[pokerand].name;
+
                     if (poke_type_name) {
                       fetch(`https://pokeapi.co/api/v2/pokemon/${poke_type_name}`)
                         .then((response) => response.json())
@@ -86,7 +87,7 @@ $(document).ready(function () {
                           card_text_II.textContent = `Breeder type :${element_type.name}, this pokemon breeder offers a habitat for pokemons that stay in the environment ${poke_habits.name}; currently ${name.first} ${name.last} has in his farm to:`;
                           card_text_III.textContent = `${poke_picture.name}`;
   
-                          PKimg.srcset = `https://pokeres.bastionbot.org/images/pokemon/${poke_picture.id}.png`;
+                          PKimg.srcset = `https://img.pokemondb.net/artwork/large/${poke_habits.pokemon_species[pokerand].name}.jpg`;
                           col_I.appendChild(PKimg);
                           breedersHTML.appendChild(mb);
                         });
