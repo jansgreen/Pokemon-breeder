@@ -2,19 +2,6 @@
 /*SHOW A LIST OF POKEMONS ==> in pokemon.js you can find a spesific pokemond and it show all pokemon we have in de pokeapi*/ 
 /*==========================================================================================*/
 
-fetch('https://cors-anywhere.herokuapp.com/https://pokeapi.co/api/v2/pokemon/?limit=0')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(allPokemon => {
-    console.log(allPokemon);
-  })
-  .catch(error => {
-    console.error(error);
-  });
 
 class api_url {
     constructor(allpoke_search) {
@@ -23,9 +10,8 @@ class api_url {
       this.allpoke_search = allpoke_search;
       this.allpoke_list = "pokemon/";
       this.allpoke_point = `pokemon?limit=8&offset=`;
-      this.url_img_pokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/'
+      this.url_img_pokemon = `https://img.pokemondb.net/artwork/large/${name}.jpg`
     }
-  
   
     search_url() {
       fetch(this.poke_url + this.allpoke_point + this.allpoke_search)
@@ -49,14 +35,20 @@ class api_url {
         .then((response) => response.json())
         .then(function (search_a_pokemon) {
           get_a_pokemon(search_a_pokemon);
-          console.log(url_img_pokemon);
         });
     }
    
   }
 
+
+  function Pokemon_ImageName(name){
+    let Poke_img = `https://img.pokemondb.net/artwork/large/${name}.jpg`
+    return Poke_img
+  }
+
   let page = 0;
 
+  // botones de paginas
 $(document).ready(function () {
     let data = new api_url(`${page}`);
     data.search_url();
@@ -82,6 +74,7 @@ $(document).ready(function () {
     });
 
   });
+
   
   function Pokemons_List(pokemonList) {
     let url = pokemonList.url;
@@ -176,8 +169,7 @@ $(document).ready(function () {
                 }
               });
           }
-          console.log(pokeData);
-          Pkimg.srcset = `https://img.pokemondb.net/artwork/large/${pokeData.name}.jpg`;
+          Pkimg.srcset = Pokemon_ImageName(pokeData.name);
           pokemons.appendChild(col);
         }
       });
@@ -191,6 +183,7 @@ $(document).ready(function () {
     let index = Math.floor(Math.random() * 964);
     var endpoint = `pokemon/${index}`;
     let data = new api_url(endpoint);
+
     data.search_one();
       
   });
@@ -208,7 +201,7 @@ $(document).ready(function () {
     const poke_habls = search_a_pokemon.abilities;
     const evo_pro = search_a_pokemon.id + 1;
     const poke_evo_cols = document.getElementById("poke_evo_cols");
-    poke_evo_cols.innerHTML = ` `;
+
     for (let index = 0; index < poke_habls.length; index++) {
       const element = poke_habls[index];
       const { name, url } = element.ability;
@@ -229,23 +222,34 @@ $(document).ready(function () {
                 fetch(`https://pokeapi.co/api/v2/pokemon/${poke_evolution_from}`)
                   .then((response) => response.json())
                   .then(function (evo_from_id) {
-                    const from_poke = evo_from_id.id;
+                    const from_poke = evo_from_id.name;
   
                     fetch(`https://pokeapi.co/api/v2/pokemon/${evo_pro}`)
                       .then((response) => response.json())
                       .then(function (evo_to) {
-                        poke_evo_cols.innerHTML = `
-              <div class="row">
-              <div class="col-xl-4" >
-              <h5 class="card-header">${poke_evolution_from}</h5>
-              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${from_poke}.png" class="card-img-top" alt="...">
+                        console.log(Pokemon_ImageName(from_poke))
+                        poke_evo_cols.innerHTML = ` 
+
+            <div class="row">
+
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${evo_to.name}</h5>
+                  <img src="${Pokemon_ImageName(from_poke)}" class="img-fluid" alt="...">
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
               </div>
-              <div class="col-xl-4" >
-              <h5 class="card-header">${evo_to.name}</h5>
-              <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evo_to.id}.png" class="card-img-top" alt="...">
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">${evo_to.name}</h5>
+                  <img src="${Pokemon_ImageName(evo_to.name)}" class="img-fluid" alt="...">
+                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
               </div>
-              </div>
-             `;
+            </div>`;
                       });
                   });
               }
@@ -262,15 +266,15 @@ $(document).ready(function () {
               div.setAttribute("class", "card-body");
               div.appendChild(h5);
               parraphas.appendChild(div);
-  
               push_data.innerHTML = `
-      <div class="card">
-    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${search_a_pokemon.id}.png" class="card-img-top" alt="...">
-    </div>
-    <div class= "card-name-Text"> <h2 class="card-title">${search_a_pokemon.name}</h2>
-    </div>
-    <h4 class="h_details">ability</h4>
-    `;
+                <div class="card">
+                  <img src="${Pokemon_ImageName(search_a_pokemon.name)}" class="img-fluid" alt="...">
+                </div>
+                <div class= "card-name-Text">
+                  <h2 class="card-title">${search_a_pokemon.name}</h2>
+                </div>
+                <h4 class="h_details">ability</h4>
+              `;
             });
         });
     }

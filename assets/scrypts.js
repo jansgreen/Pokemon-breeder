@@ -63,6 +63,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.style.width = "300px"; // Agrega esta línea para establecer el ancho
     col.appendChild(card)
 
+    var header = document.createElement("div");
+    header.classList.add("card-header")
+    var footer = document.createElement("div");
+    footer.classList.add("card-footer", "text-muted")
+    header.textContent = element.name;
+    card.appendChild(header);
+
+
     var imgEl = document.createElement("img");
     imgEl.src = poke_datas_img;
     imgEl.classList.add("card-img-top", "img-fluid");
@@ -71,16 +79,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.appendChild(imgEl);
 
     var cardBody = document.createElement("div");
-    var header = document.createElement("div");
-    header.classList.add("card-header")
-    var footer = document.createElement("div");
-    footer.classList.add("card-footer", "text-muted")
+
 
     cardBody.classList.add("card-body");
     var title = document.createElement("h5");
     title.classList.add("card-title");
     title.textContent = element.name;
-    header.textContent = element.name;
     var text = document.createElement("p");
     var FooterText = document.createElement("p");
 
@@ -96,7 +100,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     cardBody.appendChild(title);
     cardBody.appendChild(text);
     
-    card.appendChild(header);
     card.appendChild(cardBody);
     card.appendChild(footer);
 
