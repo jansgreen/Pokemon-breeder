@@ -3,279 +3,269 @@
 /*==========================================================================================*/
 
 
-class api_url {
-    constructor(allpoke_search) {
-      this.poke_url = "https://pokeapi.co/api/v2/";
-      this.allpoke_magazene = "pokemon?limit=12&offset=";
-      this.allpoke_search = allpoke_search;
-      this.allpoke_list = "pokemon/";
-      this.allpoke_point = `pokemon?limit=8&offset=`;
-      this.url_img_pokemon = `https://img.pokemondb.net/artwork/large/${name}.jpg`
+// obtener referencias a los elementos del DOM
+const btnprevious = document.getElementById("previous");
+const btnnext = document.getElementById("next");
+const resultado = document.getElementById("resultado");
+
+// inicializar el contador y el valor del paso
+let contador = 20;
+const paso = 20;
+magazine(contador)
+resultado.textContent = contador;
+
+
+
+// agregar un evento de clic al botón contador
+  btnnext.addEventListener("click", function() {
+    resultado.innerHTML ="";
+    contador += paso;
+    resultado.textContent = contador;
+    magazine(contador)
+
+  });  
+  btnprevious.addEventListener("click", function() {
+    if (contador === 20) {
+      contador = 20
+      resultado.textContent = contador;
+      magazine(contador)
+
+
+    }else{
+      contador -= paso;
+      resultado.textContent = contador;
+      magazine(contador)
+
     }
+});
+
+
+async function magazine(params) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${params}&limit=20`);
+  const data = await response.json();
   
-    search_url() {
-      fetch(this.poke_url + this.allpoke_point + this.allpoke_search)
-        .then((response) => response.json())
-        .then(function (allpokemon) {
-          allpokemon.results.forEach(function (pokemonList) {
-            Pokemons_List(pokemonList);
-          });
-        });
-    }
-    search_one() {
-      fetch(this.poke_url + this.allpoke_search)
-        .then((response) => response.json())
-        .then(function (search_a_pokemon) {
-          get_a_pokemon(search_a_pokemon);
-        });
-    }
+  const pokemonList = document.getElementById("listaPokemon");
+  pokemonList.innerHTML = "";
 
-    Image_Poke() {
-      fetch(this.url_img_pokemon + this.allpoke_search)
-        .then((response) => response.json())
-        .then(function (search_a_pokemon) {
-          get_a_pokemon(search_a_pokemon);
-        });
-    }
-   
-  }
+  for(let index=0; index < data.results.length; index++){
+    const magazine = data.results[index];
+    const card = document.createElement("div");
+    card.classList.add("card", "m-3");
+    card.style.width="300px";
 
-
-  function Pokemon_ImageName(name){
-    let Poke_img = `https://img.pokemondb.net/artwork/large/${name}.jpg`
-    return Poke_img
-  }
-
-  let page = 0;
-
-  // botones de paginas
-$(document).ready(function () {
-    let data = new api_url(`${page}`);
-    data.search_url();
-    $('#count').text("Page: "+page)
-
-    const clear = document.getElementById("pokemons");
-    $('#pagess').on('click', function() {page++;
-        clear.innerHTML = " ";
-        let data = new api_url(`${page*8}`);
-        data.search_url();
-        $('#count').text("Page: "+page)
-
-            
-    });
+    const img = document.createElement("img");
+    img.classList.add("card-img-top", "img-fluid")
+    img.src = `https://img.pokemondb.net/artwork/large/${magazine.name}.jpg`;
+    // integramo la imagen dentro de la tarjeta
     
-    $('#page_less').on('click', function() {page - 1
-      if (page !== 0){page--;
-        clear.innerHTML = " ";
-        let data = new api_url(`${page*8}`);
-        data.search_url();
-        $('#count').text("Page: "+page)
+    const cardHeader = document.createElement("div"); //creamos la cabezera de la tarjeta y la integramos a la tarjeta
+    cardHeader.classList.add("card-header");
+    const pokemonType = await pokemontype(magazine.url)
+
+    const ulHeader = document.createElement("ul")
+    ulHeader.classList.add("list-group", "list-group-horizontal")
+    // aqui mostraremos los tipos a que pertenece los pokemones
+    for (let i = 0; i < pokemonType.length; i++) {
+      ulHeader.appendChild(pokemonType[i]);
     }
-    });
+    cardHeader.appendChild(ulHeader)
+    card.appendChild(cardHeader);
+    card.appendChild(img); // integramos la imagen aqui para que lla cabecera aparezca primero que la imagen y luego el cuerpo
 
-  });
+    const cardBody = document.createElement("div") 
+    cardBody.classList.add("card-body")// creamos el cuerpo de la tarjeta
 
-  
-  function Pokemons_List(pokemonList) {
-    let url = pokemonList.url;
-    fetch(url)
-      .then((response) => response.json())
-      .then(function (pokeData) {
-        var pokemons = document.getElementById("pokemons");
-        /*===================================================*/
-        let col = document.createElement("div");
-        let Pkimg = document.createElement("img");
-        let card = document.createElement("div");
-        let cardHeader = document.createElement("div");
-        let cardBody = document.createElement("div");
-        let cardText = document.createElement("p");
-        let cardText_I = document.createElement("p");
-        let cardText_II = document.createElement("p");
-        let cardText_III = document.createElement("p");
-        let cardText_IV = document.createElement("p");
-        let cardText_V = document.createElement("p");
-        let cardText_VI = document.createElement("p");
-  
-        /*===================================================*/
-        col.setAttribute("class", "col-xl-3");
-        Pkimg.setAttribute("class", "card-img-top");
-        card.setAttribute("class", "card align-items-xl-stretch");
-        cardHeader.setAttribute("class", "card-header");
-        cardBody.setAttribute("class", "card-body");
-        cardText.setAttribute("class", "card-text container");
-        cardText_I.setAttribute("class", "card-text container");
-        cardText_II.setAttribute("class", "card-text container");
-        cardText_III.setAttribute("class", "card-text container");
-        cardText_IV.setAttribute("class", "card-text container");
-        cardText_V.setAttribute("class", "card-text container");
-        cardText_VI.setAttribute("class", "card-text container");
-  
-        /*===================================================*/
-  
-        col.appendChild(card);
-        card.appendChild(cardHeader);
-        card.appendChild(cardBody);
-        cardBody.appendChild(Pkimg);
-        card.appendChild(cardText);
-        card.appendChild(cardText_I);
-        card.appendChild(cardText_II);
-        card.appendChild(cardText_III);
-        card.appendChild(cardText_IV);
-        card.appendChild(cardText_V);
-        card.appendChild(cardText_VI);
-  
-        cardHeader.textContent = pokeData.name;
-  
-        if (pokemons) {
-          var num = pokeData.types;
-          for (let index = 0; index < num.length; index++) {
-            const element = num[index];
-            fetch(element.type.url)
-              .then((response) => response.json())
-              .then(function (poketype) {
-                cardText.textContent = `Type: ${poketype.name} and ${poketype.generation.name}`;
-                var count = poketype.damage_relations.double_damage_from;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_I.textContent = `double damage from: ${damageRel.name}`;
-                }
-                var count = poketype.damage_relations.double_damage_to;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_II.textContent = `double damage to: ${damageRel.name}`;
-                }
-  
-                var count = poketype.damage_relations.half_damage_from;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_III.textContent = `half damage from: ${damageRel.name}`;
-                }
-  
-                var count = poketype.damage_relations.half_damage_to;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_IV.textContent = `half damage to: ${damageRel.name}`;
-                }
-  
-                var count = poketype.damage_relations.no_damage_from;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_V.textContent = `no damage from: ${damageRel.name}`;
-                }
-                var count = poketype.damage_relations.no_damage_to;
-                for (let subindex = 0; subindex < count.length; subindex++) {
-                  const damageRel = count[subindex];
-                  cardText_VI.textContent = `no damage to: ${damageRel.name}`;
-                }
-              });
-          }
-          Pkimg.srcset = Pokemon_ImageName(pokeData.name);
-          pokemons.appendChild(col);
+    const title = document.createElement("h4")
+    title.textContent = await capitalizeFirstLetter(magazine.name)
+    cardBody.appendChild(title);
+    
+    card.appendChild(cardBody);
+
+    const cardFooter = document.createElement("div") //creamos el elemento cardfooter
+    cardFooter.classList.add("card-footer",  "text-muted")
+    // aqui va la llamadas a las funciones para la pre evolucion y la evolucion
+    const ulFooter = document.createElement("div")
+    ulFooter.classList.add("list-unstyled"); //("list-group", "list-group-horizontal")
+
+    const liFootherPreEvolves = document.createElement("li") // Pre Evolves
+    liFootherPreEvolves.classList.add("list-group-item")
+    liFootherPreEvolves.style.backgroundColor = "#6699CC"
+    liFootherPreEvolves.style.color = "#f4f4f4"
+
+    const liFootherEvolves = document.createElement("li") // Pre Evolves
+
+    liFootherEvolves.classList.add("list-group-item")
+    liFootherEvolves.style.backgroundColor = "#069101c0"
+    liFootherEvolves.style.color = "#f4f4f4"
+
+
+    const theEvolvesPre = await fetchDataPreEvolves(magazine.url)
+    const evolveTo = await EvolvesTo(magazine.url, magazine.name);
+
+    liFootherPreEvolves.textContent = `${theEvolvesPre}`;
+    liFootherEvolves.textContent = `${evolveTo}`;
+
+    ulFooter.append(liFootherPreEvolves)
+    ulFooter.append(liFootherEvolves)
+
+    cardFooter.appendChild(ulFooter);
+    card.appendChild(cardFooter);   
+    pokemonList.appendChild(card);
+  }
+
+
+
+// capitalizamos los nombres de los pokemons
+async function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+async function pokemontype(pokeurl){
+  const response = await fetch(pokeurl)
+  const results = await response.json()
+
+  const liArray = []
+  for (let index = 0; index < results.types.length; index++) {
+    const element = results.types[index];
+    const liHeader = document.createElement("li")
+    liHeader.classList.add("list-group-item")
+    if (element.type.name === "normal"){
+      liHeader.style.backgroundColor = `#A8A878`; //un tono grisáceo que representa lo ordinario y común
+    } else if (element.type.name === "fighting"){
+      liHeader.style.backgroundColor = `#A890F0`; //un tono lila claro que evoca al cielo y al aire
+    } else if (element.type.name === "flying"){
+      liHeader.style.backgroundColor = `#C03028`; //un tono rojo intenso que representa la ferocidad y el combate
+    } else if (element.type.name === "poison"){
+      liHeader.style.backgroundColor = "#A040A0"; //un tono morado oscuro y misterioso
+    } else if (element.type.name === "ground"){
+      liHeader.style.backgroundColor = "#E0C068"; //un tono marrón claro que representa la tierra y la arena
+    } else if (element.type.name === "rock"){
+      liHeader.style.backgroundColor = "#B8A038"; //un tono marrón oscuro y rocoso
+    } else if (element.type.name === "bug"){
+      liHeader.style.backgroundColor = "#A8B820"; //un tono verde claro que evoca a los insectos
+    } else if (element.type.name === "ghost"){
+      liHeader.style.backgroundColor = "#705898"; //un tono violeta oscuro y misterioso
+    } else if (element.type.name === "steel"){
+      liHeader.style.backgroundColor = "#B8B8D0"; //un tono plateado que representa la fortaleza y la durabilidad
+    } else if (element.type.name === "fire"){
+      liHeader.style.backgroundColor = "#F08030"; //un tono anaranjado intenso que evoca al fuego y la pasión
+    } else if (element.type.name === "water"){
+      liHeader.style.backgroundColor = "#6890F0"; //un tono azul claro que evoca al agua y a los océanos
+    } else if (element.type.name === "grass"){
+      liHeader.style.backgroundColor = "#78C850"; //un tono verde claro que representa la naturaleza y la vida
+    } else if (element.type.name === "electric"){
+      liHeader.style.backgroundColor = "#F8D030"; //un tono amarillo brillante que recuerda a la energía eléctrica
+    } else if (element.type.name === "psychic"){
+      liHeader.style.backgroundColor = "#F85888"; //un tono rosa intenso y misterioso
+    } else if (element.type.name === "ice"){
+      liHeader.style.backgroundColor = "#98D8D8"; //un tono azul claro y frío
+    } else if (element.type.name === "dragon"){
+      liHeader.style.backgroundColor = "#7038F8"; //un tono morado oscuro y mágico
+    } else if (element.type.name === "dark"){
+      liHeader.style.backgroundColor = "#705848"; //un tono grisáceo oscuro y malévolo
+    } else if (element.type.name === "fairy"){
+      liHeader.style.backgroundColor = "#EE99AC"; //un tono rosa claro y mágico
+    }
+    liHeader.style.color = "#ffffff"; //letras blancas
+
+    const poketypeCapitalizate = await capitalizeFirstLetter(element.type.name)
+    liHeader.innerHTML  = poketypeCapitalizate
+    liArray.push(liHeader)
+  }
+  return liArray
+}
+
+async function fetchDataPreEvolves(url) {
+    if (url !== undefined) {
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const evolvesFetch = data.species.url //Hacemos la primera llamada a fecth
+        const evolvesResponse = await fetch(evolvesFetch);
+        const evolvesData = await evolvesResponse.json();
+        if (evolvesData.evolves_from_species !== null) {
+          const capitalizated = await capitalizeFirstLetter(evolvesData.evolves_from_species.name);
+          return `Pre Evolves ${capitalizated}`;
+        
+        }else{
+          const notPreEvolves = "Not Pre-Evolves";
+          return notPreEvolves
         }
-      });
-  }
-  /*==========================================================================================*/
-  /*SEARCH A  POKEMON*/
-  /*==========================================================================================*/
-  $(document).ready(function() {
-    const clear = document.getElementById("searchpokemons");
-    clear.innerHTML=` `;
-    let index = Math.floor(Math.random() * 964);
-    var endpoint = `pokemon/${index}`;
-    let data = new api_url(endpoint);
-
-    data.search_one();
-      
-  });
-  function poke_search() {
-    const inputext = document.getElementById("search");
-    var inputext_value = inputext.value;
-    var inputText = inputext_value.toLowerCase();
-    let endpoint = `pokemon/${inputText}`;
-    let data = new api_url(endpoint);
-    data.search_one();
-  }
-  
-  function get_a_pokemon(search_a_pokemon) {
-    const push_data = document.getElementById("searchpokemons");
-    const poke_habls = search_a_pokemon.abilities;
-    const evo_pro = search_a_pokemon.id + 1;
-    const poke_evo_cols = document.getElementById("poke_evo_cols");
-
-    for (let index = 0; index < poke_habls.length; index++) {
-      const element = poke_habls[index];
-      const { name, url } = element.ability;
-      const poke_array = url;
-  
-      fetch(poke_array)
-        .then((response) => response.json())
-        .then(function (name_ability) {
-          const evol = search_a_pokemon.species.url;
-  
-          fetch(evol)
-            .then((response) => response.json())
-            .then(function (evolution) {
-              if (evolution.evolves_from_species) {
-                const { name } = evolution.evolves_from_species;
-                const poke_evolution_from = name;
-  
-                fetch(`https://pokeapi.co/api/v2/pokemon/${poke_evolution_from}`)
-                  .then((response) => response.json())
-                  .then(function (evo_from_id) {
-                    const from_poke = evo_from_id.name;
-  
-                    fetch(`https://pokeapi.co/api/v2/pokemon/${evo_pro}`)
-                      .then((response) => response.json())
-                      .then(function (evo_to) {
-                        console.log(Pokemon_ImageName(from_poke))
-                        poke_evo_cols.innerHTML = ` 
-
-            <div class="row">
-
-            <div class="col-sm-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${evo_to.name}</h5>
-                  <img src="${Pokemon_ImageName(from_poke)}" class="img-fluid" alt="...">
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">${evo_to.name}</h5>
-                  <img src="${Pokemon_ImageName(evo_to.name)}" class="img-fluid" alt="...">
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-              </div>
-            </div>`;
-                      });
-                  });
-              }
-  
-              const parraphas = document.getElementById("parraphas");
-              let h5 = document.createElement("h5");
-  
-              h5.setAttribute("class", "card-text ");
-  
-              h5.textContent =
-                `${name}` + `${name_ability.effect_entries[1].effect}`;
-  
-              let div = document.createElement("div");
-              div.setAttribute("class", "card-body");
-              div.appendChild(h5);
-              parraphas.appendChild(div);
-              push_data.innerHTML = `
-                <div class="card">
-                  <img src="${Pokemon_ImageName(search_a_pokemon.name)}" class="img-fluid" alt="...">
-                </div>
-                <div class= "card-name-Text">
-                  <h2 class="card-title">${search_a_pokemon.name}</h2>
-                </div>
-                <h4 class="h_details">ability</h4>
-              `;
-            });
-        });
+      } catch (error) {
+        console.error(error)
+        return error
+      }
     }
   }
+}
+
+async function EvolvesTo(url, currentPokemon) {
+  if (url !== undefined) {
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const evolvesFetch = data.species.url //Hacemos la primera llamada a fecth
+      const evolvesResponse = await fetch(evolvesFetch);
+      const evolvesData = await evolvesResponse.json();
+      const chain = evolvesData.evolution_chain.url
+
+      const chainResponse = await fetch(chain); // hacemos la segunda llamada fetch
+      const chainData = await chainResponse.json();
+
+     const Evolves_to = await seeEvolve(chainData.chain);
+     const EvolvesNext_to = await seeNextEvolve(chainData.chain);
+
+      
+    if(chainData.chain.species.name === currentPokemon && Evolves_to !== currentPokemon && Evolves_to !== undefined){
+
+      return `Evolves To ${Evolves_to}` ;
+
+    }else if(Evolves_to !== undefined && Evolves_to === currentPokemon){
+      return `${EvolvesNext_to}`;
+
+    }else if(EvolvesNext_to === currentPokemon && EvolvesNext_to !== undefined){
+      return `Last Evolution`;
+      
+    }
+    } catch (error) {
+      return error
+    }
+  }
+}
+
+
+async function seeEvolve(arg){
+  let EvolvesA;
+  if (arg.evolves_to.length > 0) {
+    for (let counter in arg.evolves_to) {
+      const element = arg.evolves_to[counter].species.name;
+      EvolvesA = element 
+    }
+  }
+  return EvolvesA
+}
+
+async function seeNextEvolve(arg){
+  let EvolvesA;
+  if (arg.evolves_to.length > 0) {
+    for (let counterA in arg.evolves_to) {
+      const elementA = arg.evolves_to[counterA];
+
+      if(elementA.evolves_to.length > 0 ){
+
+        for (let counterB in elementA.evolves_to) {
+          const elementB = elementA.evolves_to[counterB].species.name;
+          EvolvesA = elementB 
+        }
+
+      }else{
+        EvolvesA = `Not Evolves`
+      }
+    }
+  }
+  return EvolvesA
+}
