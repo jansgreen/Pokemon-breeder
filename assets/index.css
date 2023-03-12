@@ -3,14 +3,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
-.navbar {
-  min-width: 320px;
-}
-
-.fooder_content {
-  min-height: 120px;
-}
-
 .img_header {
   min-width: 325px;
   height: 400px;
@@ -24,118 +16,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
-li > a {
-  text-transform: capitalize;
-}
-
-.our {
-  background-color: #acacac;
-  height: 60px;
-}
-
-.our > h3 {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.card {
-  justify-content: space-between;
-  margin-top: 5%;
-}
-
-.card-header,
-.card-text {
-  text-transform: capitalize;
-}
-
-.Copyrigth {
-  margin-top: 5%;
-}
-.Copyrigth > h4,
-h6 {
-  text-transform: capitalize;
-  color: #ffffff;
-}
-
-.Copyrigth > p {
-  text-transform: capitalize;
-  color: #ffffff;
-  margin-left: 5%;
-}
-
-.Copyrigth > ul > li {
-  text-transform: capitalize;
-  color: #ffffff;
-}
-
-
-.icons {
-  font-size: 2em;
-  color: #dadada;
-}
-.page-item {
-  margin-left: 20%;
-}
-
-.card-name-Text {
-  background-color: #000000;
-}
-.card-name-Text > h2 {
-  text-transform: capitalize;
-  color: #ffffff;
-  margin-left: 4%;
-}
-.h_details {
-  text-transform: capitalize;
-}
-
-.card_breeders {
-  width: 4rem;
-}
-
-.farm_title {
-  background-color: black;
-  color: #ffffff;
-}
-
-
-.PKrow {
-  min-width: 40%;
-  max-height: 370px;
-}
-
-.mx-auto {
-  margin-top: 2%;
-  margin-bottom: 1%;
-}
-
-h1 {
-  text-transform: capitalize;
-}
-
-.container-xl {
-  width: 100%;
-  padding-top: 5%;
-}
-
-.navbar {
-  z-index: 2;
-  position: fixed;
-  width: 100%;
-}
-
-.poke_list {
-  margin-top: 5%;
-}
-
-.poke_nav{
-  padding-top: 20%;
-  width: 100%;
-}
-
-.allpoke_list{
-  padding-top: 5%;
-}
 
 
 
