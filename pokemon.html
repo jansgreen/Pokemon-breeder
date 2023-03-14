@@ -46,43 +46,40 @@
                 <div class="row bg-light">
                     <nav class="navbar bg-body-tertiary">
                         <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Abra, will look for..." id="abra">
+                            <button class="btn btn-outline-success" id="abraBoton" type="submit">Abra</button>
                         </form>
                     </nav>
                 </div>
 
-                <div class="row justify-content-md-center">
-                    <div class="card" style="width: 18rem;">
-                        <img src="https://img.pokemondb.net/artwork/large/abra.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                          <h4 class="card-text">The browser is temporarily disabled.</h4>
-                        </div>
-                      </div>
+                <div class="row bg-light p-5">
+                    <div id="results" class="ms-5 me-5"></div>
                 </div>
+
+
             </div>
             <div class="col-sm-8">
-                <div class="row bg-info text-white">
-                    <nav class="Page navigation example ">
-                        <div class="col">
-                            <h3 class="card-text me-5">Magazine</h3>
-                        </div>
-                        <div class="col">
-                            <ul class="pagination justify-content-center pt-3 pb-2">
-                                <li class="page-item">
-                                    <button class="btn btn-success" id="previous">Previous</button>
-                                    <div id="postPrevios"></div>
-                                </li>
-                                <li class="page-item">
-                                    <p id="resultado" class="page-link"></p>
-                                </li>
-                                <li class="page-item">
-                                    <button class="btn btn-success" id="next">Siguiente</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
+                    <div class="row bg-info text-white">
+                        <nav class="Page navigation example ">
+                            <div class="col">
+                                <h3 class="card-text me-5">Magazine</h3>
+                            </div>
+                            <div class="col">
+                                <ul class="pagination justify-content-center pt-3 pb-2">
+                                    <li class="page-item">
+                                        <button class="btn btn-success" id="previous">Previous</button>
+                                        <div id="postPrevios"></div>
+                                    </li>
+                                    <li class="page-item">
+                                        <p id="resultado" class="page-link"></p>
+                                    </li>
+                                    <li class="page-item">
+                                        <button class="btn btn-success" id="next">Siguiente</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
 
                     <div class="row">
                         <div id="listaPokemon" class="row justify-content-md-center"></div>

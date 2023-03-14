@@ -265,3 +265,17 @@ async function seeNextEvolve(arg){
   return EvolvesA
 }
 
+async function abraSearch() {
+  const url =`https://pokeapi.co/api/v2/pokemon/${arg}`;
+
+  
+}
+
+
+
+
+
+
+
+
+
