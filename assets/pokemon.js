@@ -58,7 +58,7 @@ async function magazine(params) {
     img.src = `https://img.pokemondb.net/artwork/large/${magazine.name}.jpg`;
     // integramo la imagen dentro de la tarjeta
 
-    // const siglePokemon = await selfPokemon(magazine.name, magazine.url)
+    const siglePokemon = await singlePokemon(magazine.name, magazine.url)
 
     const cardHeader = document.createElement("div"); //creamos la cabezera de la tarjeta y la integramos a la tarjeta
     cardHeader.classList.add("card-header");
@@ -270,7 +270,7 @@ async function seeNextEvolve(arg) {
   return EvolvesA
 }
 
-async function selfPokemon(currentPokemon, url) {
+async function singlePokemon(currentPokemon, url) {
   const response = await fetch(url)
   let pokemontAbi = []
   let typePoke = []
@@ -278,6 +278,7 @@ async function selfPokemon(currentPokemon, url) {
   //  const getRescuestUsing = 
   const { abilities, base_experience, forms, game_indices, height, held_items, id, is_default,
     location_area_encounters, moves, name, order, past_types, species, sprites, stats, types, weight } = await response.json()
+
   for (let abilityAccount in abilities) { //tomamos las habilidad del pokemon
     const element = abilities[abilityAccount];
     pokemontAbi = await pokeAbilities(element.ability.url)
@@ -285,8 +286,7 @@ async function selfPokemon(currentPokemon, url) {
   }
 
   typePoke = await pokType(types)
-
-  return { Ability: pokemontAbi, Type: typePoke };
+  return { Ability: pokemontAbi, Type: typePoke.allType, baseExperience:base_experience  };
 
 
 }
@@ -321,14 +321,14 @@ async function abraSearch(event) {
   }
   const PokeData = await pokType(data.types)
   let cardDiv = document.createElement("div");
-  cardDiv.classList.add("bg-ligth")
+  cardDiv.classList.add("bg-ligth", "cardBodyOcean")
   cardDiv.style.width = "25rem";
   cardDiv.style.border = "1px solid #ff05ac";
 
   let cardHeader = document.createElement("div")
   cardHeader.classList.add("card-header","position-relative");
 
-  cardHeader.appendChild(PokeData);
+  cardHeader.appendChild(PokeData.allType);
   const cardBody = document.createElement("div")
   const img = document.createElement("img")
   img.src = `https://img.pokemondb.net/artwork/large/${encodeURIComponent(query)}.jpg`;
@@ -339,11 +339,44 @@ async function abraSearch(event) {
   const titleName = document.createElement("h5")
   titleName.classList.add("card-title", "text-capitalize");
   titleName.textContent = data.species.name
+
   cardBody.appendChild(titleName)
   const bodyP = document.createElement("p")
   bodyP.classList.add("card-text");
   bodyP.textContent = PokeAbility; 
+
   cardBody.appendChild(bodyP);
+  const div = document.createElement("div");
+  const progress = document.createElement("div");
+  const progressBar = document.createElement("div");
+  const progressLabel = document.createElement("label");
+  progressLabel.for="exampleInputEmail1";
+  progressLabel.classList.add("form-label")
+  progressLabel.textContent = "Base Experience";
+
+  const baseExperienceData = await singlePokemon(currentPokemon, url)
+  div.classList.add("mt-5", "mb-5")
+  progressBar.classList.add("progress-bar", "progress-bar-striped", "progress-bar-animated");
+
+   /*   AQUI LE PONDREMOS EL COLOR DEL TIPO DE POKEMON EN LA BASE EXPERIENCE */
+   /*
+  if( PokeData.typeColors.length > 0){
+    console.log(PokeData.typeColors[0])
+
+  }else{
+    console.log(PokeData.typeColors[0])
+
+  }*/
+  progressBar.style.width = "25%"
+  progressBar.ariaValueNow = baseExperienceData.baseExperience
+  progressBar.textContent = `Exp.${baseExperienceData.baseExperience}`
+  progressBar.ariaValueMax = "1000"
+  progress.classList.add("progress");
+  progress.appendChild(progressBar);
+  div.appendChild(progressLabel);
+  div.appendChild(progress);
+  cardBody.appendChild(div);
+
   const cardFoter = document.createElement("div");
   cardFoter.classList.add("card-footer");
   const ulfoter = document.createElement("ul");
@@ -398,6 +431,7 @@ async function pokeAbilities(url) {
 }
 
 async function pokType(arg) {
+  const typeColor = []
   const allType = document.createElement("ul");
   allType.classList.add("list-group", "list-group-horizontal")
 
@@ -412,61 +446,80 @@ async function pokType(arg) {
       liHeader.textContent = typeName;
 
       switch (typeName) {
-        case "normal":
+        case "normal": 
+          typeColor.push("#A8A878");
           liHeader.style.backgroundColor = `#A8A878`;
           break;
         case "fighting":
+          typeColor.push("#A890F0")
           liHeader.style.backgroundColor = `#A890F0`;
           break;
         case "flying":
+          typeColor.push("#C03028")
           liHeader.style.backgroundColor = `#C03028`;
           break;
         case "poison":
+          typeColor.push("#A040A0")
           liHeader.style.backgroundColor = "#A040A0";
           break;
         case "ground":
+          typeColor.push("#E0C068")
           liHeader.style.backgroundColor = "#E0C068";
           break;
         case "rock":
+          typeColor.push("#B8A038")
           liHeader.style.backgroundColor = "#B8A038";
           break;
         case "bug":
+          typeColor.push("#A8B820")
           liHeader.style.backgroundColor = "#A8B820";
           break;
         case "ghost":
+          typeColor.push("#705898")
           liHeader.style.backgroundColor = "#705898";
           break;
         case "steel":
+          typeColor.push("#B8B8D0");
           liHeader.style.backgroundColor = "#B8B8D0";
           break;
         case "fire":
+          typeColor.push("#F08030");
           liHeader.style.backgroundColor = "#F08030";
           break;
         case "water":
+          typeColor.push("#6890F0");
           liHeader.style.backgroundColor = "#6890F0";
           break;
         case "grass":
+          typeColor.push("#78C850");
           liHeader.style.backgroundColor = "#78C850";
           break;
         case "electric":
+          typeColor.push("#F8D030");
           liHeader.style.backgroundColor = "#F8D030";
           break;
         case "psychic":
+          typeColor.push("#F85888");
           liHeader.style.backgroundColor = "#F85888";
           break;
         case "ice":
+          typeColor.push("#98D8D8");
           liHeader.style.backgroundColor = "#98D8D8";
           break;
         case "dragon":
+          typeColor.push("#7038F8");
           liHeader.style.backgroundColor = "#7038F8";
           break;
         case "dark":
+          typeColor.push("#705848");
           liHeader.style.backgroundColor = "#705848";
           break;
         case "fairy":
+          typeColor.push("#EE99AC");
           liHeader.style.backgroundColor = "#EE99AC";
           break;
         default:
+          typeColor.push("#000000");
           liHeader.style.backgroundColor = "#000000";
           liHeader.textContent = "unknown";
       }
@@ -474,7 +527,7 @@ async function pokType(arg) {
       allType.appendChild(liHeader);
     }
 
-    return allType;
+    return {allType: allType, typeColors:typeColor};
   } else {
     const liHeader = document.createElement("li");
     liHeader.classList.add("text-capitalize", "list-group-item");
