@@ -8,44 +8,50 @@ const btnprevious = document.getElementById("previous");
 const btnnext = document.getElementById("next");
 const resultado = document.getElementById("resultado");
 
-// inicializar el contador y el valor del paso
-let contador = 20;
+// inicializar el contador y el valor del paso (empezar en 0 para el primer conjunto)
+let contador = 0;
 const paso = 20;
-magazine(contador)
-resultado.textContent = contador;
+// Mostrar el valor inicial (si existe el elemento)
+if (resultado) resultado.textContent = contador;
+// Llamada inicial para renderizar el magazine (si el DOM tiene el contenedor)
+magazine(contador);
 
 
 
 // agregar un evento de clic al botón contador
-btnnext.addEventListener("click", function () {
-  resultado.innerHTML = "";
-  contador += paso;
-  resultado.textContent = contador;
-  magazine(contador)
+if (btnnext) {
+  btnnext.addEventListener("click", function () {
+    if (resultado) resultado.textContent = "";
+    contador += paso;
+    if (resultado) resultado.textContent = contador;
+    magazine(contador);
+  });
+}
 
-});
-btnprevious.addEventListener("click", function () {
-  if (contador === 20) {
-    contador = 20
-    resultado.textContent = contador;
-    magazine(contador)
-
-
-  } else {
-    contador -= paso;
-    resultado.textContent = contador;
-    magazine(contador)
-
-  }
-});
+if (btnprevious) {
+  btnprevious.addEventListener("click", function () {
+    // evitar valores negativos
+    if (contador <= 0) {
+      contador = 0;
+    } else {
+      contador -= paso;
+    }
+    if (resultado) resultado.textContent = contador;
+    magazine(contador);
+  });
+}
 
 
 async function magazine(params) {
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${params}&limit=20`);
-  const data = await response.json();
-
   const pokemonList = document.getElementById("listaPokemon");
-  pokemonList.innerHTML = "";
+  // show loading spinner
+  pokemonList.innerHTML = `<div class="d-flex justify-content-center my-4"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>`;
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${params}&limit=20`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+
+    pokemonList.innerHTML = "";
 
   for (let index = 0; index < data.results.length; index++) {
     const magazine = data.results[index];
@@ -56,6 +62,8 @@ async function magazine(params) {
     const img = document.createElement("img");
     img.classList.add("card-img-top", "img-fluid")
     img.src = `https://img.pokemondb.net/artwork/large/${magazine.name}.jpg`;
+    img.alt = `${magazine.name} image`;
+    img.onerror = () => { img.src = 'https://via.placeholder.com/300x300?text=No+Image'; };
     // integramo la imagen dentro de la tarjeta
 
     const siglePokemon = await singlePokemon(magazine.name, magazine.url)
@@ -114,9 +122,10 @@ async function magazine(params) {
     card.appendChild(cardFooter);
     pokemonList.appendChild(card);
   }
-
-
-}
+  } catch (err) {
+    console.error('magazine error', err);
+    pokemonList.innerHTML = `<div class="alert alert-warning" role="alert">No se pudieron cargar los pokémon. Intenta recargar la página.</div>`;
+  }
   // capitalizamos los nombres de los pokemons
   async function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -171,7 +180,7 @@ async function magazine(params) {
       liHeader.style.color = "#ffffff"; //letras blancas
 
       const poketypeCapitalizate = await capitalizeFirstLetter(element.type.name)
-      liHeader.innerHTML = poketypeCapitalizate
+      liHeader.textContent = poketypeCapitalizate
       liArray.push(liHeader)
     }
     return liArray
@@ -200,6 +209,9 @@ async function magazine(params) {
       }
     }
   }
+
+  // cierre de la función magazine
+}
 
 
 async function EvolvesTo(url, currentPokemon) {
@@ -271,22 +283,30 @@ async function seeNextEvolve(arg) {
 }
 
 async function singlePokemon(currentPokemon, url) {
-  const response = await fetch(url)
-  let pokemontAbi = []
-  let typePoke = []
-  //  const results = await response.json()
-  //  const getRescuestUsing = 
-  const { abilities, base_experience, forms, game_indices, height, held_items, id, is_default,
-    location_area_encounters, moves, name, order, past_types, species, sprites, stats, types, weight } = await response.json()
+  try {
+    const response = await fetch(url)
+    let pokemontAbi = []
+    let typePoke = []
+    const { abilities, base_experience, types } = await response.json()
 
-  for (let abilityAccount in abilities) { //tomamos las habilidad del pokemon
-    const element = abilities[abilityAccount];
-    pokemontAbi = await pokeAbilities(element.ability.url)
+    for (let abilityAccount in abilities) { //tomamos las habilidad del pokemon
+      const element = abilities[abilityAccount];
+      pokemontAbi = await pokeAbilities(element.ability.url)
+    }
 
+    typePoke = await pokType(types)
+    return { Ability: pokemontAbi, Type: typePoke.allType, baseExperience: base_experience };
+  } catch (err) {
+    console.error('singlePokemon error', err);
+    // Return safe defaults so callers can continue
+    const emptyList = document.createElement('ul');
+    emptyList.classList.add('list-group', 'list-group-horizontal');
+    const placeholder = document.createElement('li');
+    placeholder.classList.add('list-group-item');
+    placeholder.textContent = 'unknown';
+    emptyList.appendChild(placeholder);
+    return { Ability: [], Type: emptyList, baseExperience: 0 };
   }
-
-  typePoke = await pokType(types)
-  return { Ability: pokemontAbi, Type: typePoke.allType, baseExperience:base_experience  };
 
 
 }
@@ -306,10 +326,13 @@ resultsContainer.innerHTML = `
 
 async function abraSearch(event) {
   event.preventDefault();
-  resultsContainer.innerHTML = ``
+  // show spinner while searching
+  resultsContainer.innerHTML = `<div class="d-flex justify-content-center my-4"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>`;
   const query = document.querySelector('#abra').value;
-  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(query)}`)
-  const data = await response.json()
+  try {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(query)}`)
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json()
   const currentPokemon = data.species.name
   const url = `https://pokeapi.co/api/v2/pokemon/${encodeURIComponent(query)}`
   const evolveTo = await EvolvesTo(url, currentPokemon)
@@ -321,7 +344,7 @@ async function abraSearch(event) {
   }
   const PokeData = await pokType(data.types)
   let cardDiv = document.createElement("div");
-  cardDiv.classList.add("bg-ligth", "cardBodyOcean")
+  cardDiv.classList.add("bg-light", "cardBodyOcean")
   cardDiv.style.width = "25rem";
   cardDiv.style.border = "1px solid #ff05ac";
 
@@ -333,6 +356,8 @@ async function abraSearch(event) {
   const img = document.createElement("img")
   img.src = `https://img.pokemondb.net/artwork/large/${encodeURIComponent(query)}.jpg`;
   img.classList.add("card-img-top");
+  img.alt = `${query} image`;
+  img.onerror = () => { img.src = 'https://via.placeholder.com/300x300?text=No+Image'; };
   cardBody.classList.add("card-body")
   cardDiv.appendChild(cardHeader);
   cardDiv.appendChild(img);
@@ -350,7 +375,7 @@ async function abraSearch(event) {
   const progress = document.createElement("div");
   const progressBar = document.createElement("div");
   const progressLabel = document.createElement("label");
-  progressLabel.for="exampleInputEmail1";
+  progressLabel.setAttribute('for', 'exampleInputEmail1');
   progressLabel.classList.add("form-label")
   progressLabel.textContent = "Base Experience";
 
@@ -367,10 +392,15 @@ async function abraSearch(event) {
     console.log(PokeData.typeColors[0])
 
   }*/
-  progressBar.style.width = "25%"
-  progressBar.ariaValueNow = baseExperienceData.baseExperience
-  progressBar.textContent = `Exp.${baseExperienceData.baseExperience}`
-  progressBar.ariaValueMax = "1000"
+  const maxExp = 1000;
+  const expValue = Number(baseExperienceData.baseExperience) || 0;
+  const percent = Math.min(100, Math.round((expValue / maxExp) * 100));
+  progressBar.style.width = `${percent}%`;
+  progressBar.setAttribute('role', 'progressbar');
+  progressBar.setAttribute('aria-valuemin', '0');
+  progressBar.setAttribute('aria-valuenow', String(expValue));
+  progressBar.setAttribute('aria-valuemax', String(maxExp));
+  progressBar.textContent = `Exp. ${expValue}`;
   progress.classList.add("progress");
   progress.appendChild(progressBar);
   div.appendChild(progressLabel);
@@ -405,6 +435,8 @@ async function abraSearch(event) {
   const circleImg = document.createElement("img");
   circleImg.src = `https://img.pokemondb.net/artwork/large/abra.jpg`;
   circleImg.classList.add("rounded-circle");
+  circleImg.alt = `abra avatar`;
+  circleImg.onerror = () => { circleImg.src = 'https://via.placeholder.com/96?text=No+Img'; };
   circleImg.style.width = "96px"
   circleImg.style.height = "96px"
   circleImg.style.border = "4px solid #ff05ac";
@@ -416,7 +448,10 @@ async function abraSearch(event) {
 
 
   resultsContainer.appendChild(cardDiv)
-
+  } catch (err) {
+    console.error('abraSearch error', err);
+    resultsContainer.innerHTML = `<div class="alert alert-danger" role="alert">No se encontró el pokémon o hubo un error. Intenta con otro nombre.</div>`;
+  }
 }
 
 var boton = document.getElementById('abraBoton');
@@ -539,4 +574,3 @@ async function pokType(arg) {
     return allType;
   }
 }
-

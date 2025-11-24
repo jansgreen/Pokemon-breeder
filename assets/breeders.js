@@ -40,7 +40,9 @@ $(document).ready(function () {
 
   
           const farm_pkname = email.slice("", -11);
-          img.srcset = picture.large;
+          img.src = picture.large;
+          img.alt = `${name.first} ${name.last}`;
+          img.onerror = () => { img.src = 'https://via.placeholder.com/150?text=No+Image'; };
           (farm_title.textContent = `farm ${farm_pkname}`),
             (card_text.textContent = "Name: " + name.first + " " + name.last);
           card_text_I.textContent =
@@ -87,7 +89,9 @@ $(document).ready(function () {
                           card_text_II.textContent = `Breeder type :${element_type.name}, this pokemon breeder offers a habitat for pokemons that stay in the environment ${poke_habits.name}; currently ${name.first} ${name.last} has in his farm to:`;
                           card_text_III.textContent = `${poke_picture.name}`;
   
-                          PKimg.srcset = `https://img.pokemondb.net/artwork/large/${poke_habits.pokemon_species[pokerand].name}.jpg`;
+                          PKimg.src = `https://img.pokemondb.net/artwork/large/${poke_habits.pokemon_species[pokerand].name}.jpg`;
+                          PKimg.alt = poke_picture.name;
+                          PKimg.onerror = () => { PKimg.src = 'https://via.placeholder.com/150?text=No+Image'; };
                           col_I.appendChild(PKimg);
                           breedersHTML.appendChild(mb);
                         });
